@@ -9,18 +9,13 @@
 
 var React = require('react');
 
-var Menu = require('./components/menu/menu.react');
-var SideMenu = require('./components/sideMenu/sideMenu');
-var Dashboard = require('./components/dashboard/dashboard.react');
-var System = require('./components/system/system.react');
-var Cpt = require('./components/Cpt/Cpt.react');
-var Report = require('./components/report/report.react');
-var Events = require('./components/events/events.react');
-var Event = require('./components/events/components/event.react');
-// var Menu = require('./components/menu/menu.react');
-// var Menu = require('./components/menu/menu.react');
-// var Menu = require('./components/menu/menu.react');
-var Router = require('react-router'); // or var Router = ReactRouter; in browsers
+var Menu = require('./components/menu.react');
+var SideMenu = require('./components/sideMenu');
+var Dashboard = require('./components/dashboard.react');
+var Movies = require('./components/movies.react');
+var Stocks = require('./components/stocks.react');
+var Weather = require('./components/weather.react');
+var Router = require('react-router'); 
 
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
@@ -49,14 +44,10 @@ var App = React.createClass({
 
 var routes = (
   <Route name="app" path="/" handler={App}>
-    <Route name="report" handler={Report}/>
-    <Route name="events" handler={Events}>
-    	<Route name="event" path=":eventId" handler={Event}/>
-    </Route>
-    <Route name="dashboard" handler={Dashboard}/>
-    <Route name="system" handler={System}/>
-    <Route name="component" handler={Cpt}/>
-    <Redirect to="dashboard"/>
+    <Route name="movies" handler={Movies}/>
+    <Route name="stocks" handler={Stocks}/>
+    <Route name="weather" handler={Weather}/>
+    <Redirect to="movies"/>
   </Route>
 );
 

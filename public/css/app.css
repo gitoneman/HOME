@@ -17,6 +17,11 @@ html,body {
 	height: 100%;
 	font-family: "微软雅黑";
 }
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 .g-doc {
 	position: relative;
 	top: 0;
@@ -42,7 +47,7 @@ html,body {
 	overflow: auto;
 }
 .g-cnt {
-	padding: 10px;
+	padding: 20px;
 }
 .navbar-default .navbar-nav>li>a.active, .navbar-default .navbar-nav>li>a.active:hover, .navbar-default .navbar-nav>li>a.active:focus{
 	color: #555;
@@ -130,9 +135,99 @@ nav {
 	padding: 10px;
 }
 .chart-container {
-	height: 300px;
+	height: 100%;
 }
 
+.movies-content {
+	padding: 20px;
+}
+.movies-item {
+	float: left;
+	width: 130px;
+	height: 182px;
+	background: #ccc;
+	margin-right: 20px;
+	margin-bottom: 30px;
+}
+.movies-item-title {
+	width: 100%;
+	text-align: center;
+	display: block;
+	padding-top: 5px;
+}
+.weather {
+
+}
+.weather-icon {
+	background-image: url("../img/weather.png");
+	width:55px;
+	height: 45px;
+	display: block;
+	margin: 10px auto;
+}
+.weather-sunny {
+	background-position: 0px -90px;
+}
+.weather-duoyun {
+	background-position: -240px -45px;
+}
+.weather-yin {
+	background-position: -180px -45px;
+}
+.weather-days {
+	height: 200px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-right: none;
+}
+.weather-days-item {
+	float: left;
+	width:14.2857%;
+	height: 100%;
+	border-right: 1px solid #ddd;
+}
+.weather-days-enable:hover {
+	/*cursor: pointer;
+	background: #4BD9F2;*/
+}
+.weather-days-head {
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+.weather-days-body {
+
+}
+.weather-detail {
+	
+}
+.weather-detail-advice {
+	overflow: hidden;
+	margin-top: 10px;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+.weather-detail-advice .item {
+	margin-right: 40px;
+}
+.weather-detail-hour {
+	margin-top: 10px;
+	border: 1px solid #ddd;
+	height: 300px;
+}
+.weather-detail-hour .head {
+	height: 30px;
+	line-height: 30px;
+	padding-left: 10px;
+	border-bottom: 1px solid #ddd;
+}
+.weather-detail-hour .body {
+	height: 270px;
+}
+
+
+/*功能类*/
 .f-mt10 {
 	margin-top: 10px;
 }
@@ -147,6 +242,9 @@ nav {
 }
 .f-fl {
 	float: left;
+}
+.f-tac {
+	text-align: center;
 }
 
 /*overwrite*/

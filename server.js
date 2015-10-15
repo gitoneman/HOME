@@ -24,8 +24,7 @@ mongoose.connection.on('error', function() {
 //mongodb end
 
 //定时任务
-var schedule = require('node-schedule');
-var jobs = require('./jobs');
+var jobs = require('./work/jobs');
 
 //登录认证 start
 var cookieParser = require('cookie-parser');
@@ -93,7 +92,10 @@ app.post('/login', router.user.signin);
 app.get('/register',router.user.register);
 app.post('/register',router.user.signup);
 app.get('/logout',router.user.logout);
-app.get('/userinfo',router.user.userinfo)
+app.get('/userinfo',router.user.userinfo);
+
+app.get('/movies',router.movies.movieLists);
+app.get('/weather',router.weather.getWeather);
 
 app.use(function(err, req, res, next) {
   	res.status(err.status || 500);

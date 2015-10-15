@@ -1,6 +1,6 @@
 var React = require('react');
 var AccordionItem = require('./sideMenu-item.react');
-var menu = require('../../menu.config');
+var menu = require('../menu.config');
 var _ = require("underscore");
 
 function getInit(){

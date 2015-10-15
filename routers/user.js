@@ -2,7 +2,6 @@ var User = require('../models/user');
 var fs = require('fs');
 var passport = require('passport');
 var crypto = require('crypto');
-var salt = "1qazxsw2";
 
 module.exports = {
 	login:function(req,res){

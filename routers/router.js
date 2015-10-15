@@ -1,5 +1,7 @@
 var User = require('./user');
 var fs = require('fs');
+var Movies = require('./movies');
+var Weather = require('./weather');
 
 module.exports = {
 	index:function(req,res){
@@ -8,5 +10,7 @@ module.exports = {
 			res.send(data);
 	  	})
 	},
-	user: User
+	user: User,
+	movies: Movies,
+	weather: Weather
 }

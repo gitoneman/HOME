@@ -1,5 +1,4 @@
 var React = require('react');
-var Button = require('../../common/button/button.react');
 var Alert = require('react-bootstrap').Alert;
 var ButtonToolbar = require('react-bootstrap').ButtonToolbar;
 var Button = require('react-bootstrap').Button;

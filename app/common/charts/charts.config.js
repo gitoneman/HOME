@@ -2,43 +2,12 @@ var React = require('react');
 
 var config = {
 	line:{
-		title : {
-	        text: "指标曲线",
-			x :	 "50",
-			textStyle:{
-            	fontSize: 14,
-            	color:"#3487bf"
-            }
-
-	    },
 	    tooltip : {
 	        trigger: 'axis'
 	    },
-	   //  toolbox: {
-	   //      show : true,
-	   //      y: 'bottom',
-	   //      // x:"right",
-	   //      feature : {
-	   //          mark : {show: false},
-				// dataZoom : {show: true},
-	   //          dataView : {show: true, readOnly: true},
-	   //          magicType : {show: true, type: ['line', 'bar']},
-	   //          restore : {show: true},
-	   //          saveAsImage : {show: true}
-	   //      }
-	   //  },
-	    calculable : true,
-	    dataZoom : {
-	        show : true,
-	        realtime : true,
-	        y: 50,
-	        height: 20,
-	        start : 0,
-	        end : 100
-	    },
 		grid : {
-			y : 70,
-			x : 100,
+			y : 20,
+			x : 50,
 			x2 : 50
 		},
 		
@@ -52,53 +21,24 @@ var config = {
 	    xAxis : [
 	        {
 	            type : 'category',
-	            splitLine : {show : false},
-	            data :  ["1","2"] ,         
+	            boundaryGap : false,
+	            data :  ["1","2"]         
 	        }
 	    ],
 	    yAxis : [
 	        {
 	            type : 'value',
-	            position: 'left',
-	            splitArea : {show : false},
 				axisLabel : {
 	                formatter: '{value} '
-	            },
-				precision:3,
-				scale:true,
-				min:398.871772963389,
-				max:413.02967501229404
+	            }
 	        }
 	    ],
-
-		color:  [ 
-            '#1badf2', '#da70d6', '#32cd32', '#6495ed', 
-            '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0', 
-            '#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', 
-            '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' 
-        ],
         series : [
 	        {
 	            name:"绍兴银行",
 				symbol:'none',
 				smooth:true,
 	            type:"line",
-	            markLine : {
-				   symbolSize:2,
-				   itemStyle : {
-	                        normal : {
-	                            color:'#f00',
-	                            label : {
-	                                show:true
-	                            }
-	                        }
-	                },
-					
-	                data : [
-	                    //{type : 'average', name: '平均值'},
-	                ]
-					
-	            },
 		        data:[
 		        	"100","200"			
 				]
