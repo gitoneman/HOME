@@ -48,6 +48,7 @@ html,body {
 }
 .g-cnt {
 	padding: 20px;
+	height: 100%;
 }
 .navbar-default .navbar-nav>li>a.active, .navbar-default .navbar-nav>li>a.active:hover, .navbar-default .navbar-nav>li>a.active:focus{
 	color: #555;
@@ -138,6 +139,7 @@ nav {
 	height: 100%;
 }
 
+/*电影*/
 .movies-content {
 	padding: 20px;
 }
@@ -147,7 +149,7 @@ nav {
 	height: 182px;
 	background: #ccc;
 	margin-right: 20px;
-	margin-bottom: 30px;
+	margin-bottom: 40px;
 }
 .movies-item-title {
 	width: 100%;
@@ -155,6 +157,8 @@ nav {
 	display: block;
 	padding-top: 5px;
 }
+
+/*天气*/
 .weather {
 
 }
@@ -224,6 +228,109 @@ nav {
 }
 .weather-detail-hour .body {
 	height: 270px;
+}
+
+
+/*邮件发送*/
+.mail {
+	width: 500px;
+}
+
+/*聊天室*/
+.chat {
+	position: relative;
+	height: 100%;
+	border: 1px solid #ddd;
+}
+.chat-list {
+	position: absolute;
+	right: 0;
+	width: 200px;
+	top: 0;
+	bottom: 0;
+	border-left: 1px solid #ddd;
+}
+.chat-list ul {
+	list-style: none;
+	padding: 0;
+}
+.chat-list ul li {
+	height: 40px;
+	line-height: 40px;
+	padding-left: 20px;
+	border-bottom: 1px solid #ddd;
+}
+.chart-list-title {
+	height: 60px;
+	line-height: 60px;
+	border-bottom: 1px solid #ddd;
+	padding-left: 10px;
+}
+.chat-room {
+	position: absolute;
+	left: 0;
+	right: 200px;
+	top: 0;
+	bottom: 0;
+	background-color: #eee;
+}
+.chat-room-body {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 140px;
+	overflow: auto;
+}
+
+.chat-room-item {
+	overflow: hidden;
+	padding: 20px;
+}
+.chat-room-item .msg {
+	padding: 10px;
+	background-color: #b2e281;
+	border-radius: 3px;
+	float: left;
+}
+.chat-room-item .logo {
+	float: right;
+	font-size: 40px;
+	margin-left: 10px;
+	margin-top: -2px;
+}
+.chat-room-text {
+	position: absolute;
+	bottom: 40px;
+	height: 100px;
+	left: 0;
+	right: 0;
+}
+.chat-room-text textarea {
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-top: 1px solid #ddd;
+	resize:none;
+	background: #eee;
+	padding: 10px;
+}
+.chat-room-text textarea:focus {
+	outline: none;
+
+}
+.chat-room-send {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	padding-top: 3px;
+	padding-right: 5px;
+}
+.chat-room-send .tip {
+	margin-right: 30px;
+	margin-top: 6px;
 }
 
 

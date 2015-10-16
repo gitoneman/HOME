@@ -11,10 +11,11 @@ var React = require('react');
 
 var Menu = require('./components/menu.react');
 var SideMenu = require('./components/sideMenu');
-var Dashboard = require('./components/dashboard.react');
 var Movies = require('./components/movies.react');
 var Stocks = require('./components/stocks.react');
 var Weather = require('./components/weather.react');
+var Chat = require('./components/chat.react');
+var Mail = require('./components/mail.react');
 var Router = require('react-router'); 
 
 var DefaultRoute = Router.DefaultRoute;
@@ -47,6 +48,8 @@ var routes = (
     <Route name="movies" handler={Movies}/>
     <Route name="stocks" handler={Stocks}/>
     <Route name="weather" handler={Weather}/>
+    <Route name="chat" handler={Chat}/>
+    <Route name="mail" handler={Mail}/>
     <Redirect to="movies"/>
   </Route>
 );

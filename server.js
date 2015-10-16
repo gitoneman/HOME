@@ -15,6 +15,8 @@ var xml2js = require('xml2js');
 var _ = require('underscore');
 var router = require('./routers/router');
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 //mongodb start
 mongoose.connect('mongodb://localhost/home');
@@ -25,6 +27,9 @@ mongoose.connection.on('error', function() {
 
 //定时任务
 var jobs = require('./work/jobs');
+
+//socket
+var chat = require('./work/chat.js').createChat(io);
 
 //登录认证 start
 var cookieParser = require('cookie-parser');
@@ -96,6 +101,7 @@ app.get('/userinfo',router.user.userinfo);
 
 app.get('/movies',router.movies.movieLists);
 app.get('/weather',router.weather.getWeather);
+app.post('/mail',router.mail.sendMail);
 
 app.use(function(err, req, res, next) {
   	res.status(err.status || 500);
@@ -105,8 +111,7 @@ app.use(function(err, req, res, next) {
 /**
  * Socket.io stuff.
  */
-var server = require('http').createServer(app);
-// var io = require('socket.io')(server);
+
 // var onlineUsers = 0;
 
 // io.sockets.on('connection', function(socket) {

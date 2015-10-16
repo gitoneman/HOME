@@ -5,12 +5,18 @@ var menu = {
 			href: "movies"
 		},
 		{
-			name: "股票",
-			href: "stocks"
-		},
-		{
 			name: "天气",
 			href: "weather"
+		}
+	],
+	"项目学习":[
+		{
+			name:"聊天室",
+			href: "chat"
+		},
+		{
+			name: "发送邮件",
+			href: "mail"
 		}
 	]
 }
