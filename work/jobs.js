@@ -21,7 +21,6 @@ var j = schedule.scheduleJob(rule, function(){
 		.catch(function(e){
 			console.log(e)
 		})
-
 	//qq视频爬虫
 	pc.vqq().then(function(data){
 		Vqq.remove(function(err){
@@ -42,5 +41,6 @@ pc.vqq().then(function(data){
 		});
 	}); 
 });
+
 
 

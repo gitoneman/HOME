@@ -1,3 +1,5 @@
+require('babel-core/register');
+
 var path = require('path');
 var fs = require('fs');
 var express = require('express');
@@ -9,20 +11,21 @@ var async = require('async');
 var colors = require('colors');
 var mongoose = require('mongoose');
 var request = require('request');
-var React = require('react');
-var Router = require('react-router');
-var xml2js = require('xml2js');
 var _ = require('underscore');
 var router = require('./routers/router');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var httpProxy = require('http-proxy');
+// var pageRender = require('./routers/pages');
+var swig  = require('swig');
 
 //mongodb start
-mongoose.connect('mongodb://localhost/home');
-mongoose.connection.on('error', function() {
-  		console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
-});
+var db = require("./database").init();
+// mongoose.connect('mongodb://localhost/home');
+// mongoose.connection.on('error', function() {
+//   		console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
+// });
 //mongodb end
 
 //定时任务
@@ -51,7 +54,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy({ usernameField: 'username' }, function(username, password, done) {
-  	var criteria = {username:username}
+  	var criteria = {username:username};
   	User.findOne(criteria, function(err, user) {
     	if (!user) return done(null, false, { message: '用户 ' + username + ' 不存在'});
     	var sha1 = crypto.createHash("sha1");
@@ -69,6 +72,14 @@ var isAuthenticated = function(req, res, next) {
   	if (req.isAuthenticated()) return next();
   	res.redirect('/login');
 };
+
+var isLogin = function(req,res,next) {
+    if(req.isAuthenticated()){
+        res.redirect("/")
+    }else{
+        return next();
+    }
+}
 
 app.use(cookieParser());
 app.use(session({secret: "need change"}));
@@ -92,38 +103,42 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/',isAuthenticated,router.index);
 
 //user api
-app.get('/login',router.user.login);
+app.get('/login',isLogin,router.user.login);
 app.post('/login', router.user.signin);
 app.get('/register',router.user.register);
 app.post('/register',router.user.signup);
 app.get('/logout',router.user.logout);
-app.get('/userinfo',router.user.userinfo);
+app.get('/api/userinfo',router.user.userinfo);
 
-app.get('/movies',router.movies.movieLists);
-app.get('/weather',router.weather.getWeather);
-app.post('/mail',router.mail.sendMail);
+app.get('/api/movies',router.movies.movieLists);
+app.get('/api/weather',router.weather.getWeather);
+app.post('/api/mail',router.mail.sendMail);
+
+app.get('/api/account',router.account.list);
+app.post('/api/account/add',router.account.add);
+app.post('/api/account/del',router.account.del);
+
+
+var node_env = process.env.NODE_ENV;
+if(node_env === 'devhotloader') {
+    var proxy = httpProxy.createProxyServer();
+
+    app.all('/public/*', function(req, res) {
+      proxy.web(req, res, {
+          target: 'http://localhost:3001'
+      });
+    });
+    proxy.on('error', function(e) {
+      console.log('Could not connect to proxy, please try again...');
+    });
+}
+
+//app.use(isAuthenticated,pageRender.render);
 
 app.use(function(err, req, res, next) {
   	res.status(err.status || 500);
   	res.send({ message: err.message });
 });
-
-/**
- * Socket.io stuff.
- */
-
-// var onlineUsers = 0;
-
-// io.sockets.on('connection', function(socket) {
-//   	onlineUsers++;
-
-//   	io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
-
-//   	socket.on('disconnect', function() {
-// 		onlineUsers--;
-// 		io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
-//   	});
-// });
 
 server.listen(app.get('port'), function() {
   	console.log('Express server listening on port ' + app.get('port'));

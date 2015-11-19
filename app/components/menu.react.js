@@ -1,45 +1,67 @@
-var React = require('react');
-var Router = require('react-router'); // or var Router = ReactRouter; in browsers
-var Link = Router.Link;
-var MenuItem = require('react-bootstrap').MenuItem;
-var DropdownButton = require('react-bootstrap').DropdownButton;
-var UserStore = require('../stores/UserStore');
-var UserActions = require('../actions/UserActions');
+import React from "react";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as sessionAction from '../actions/sessionAction';
+import {MenuItem,DropdownButton} from "react-bootstrap";
+import {Glyphicon} from "react-bootstrap";
 
-var menu = React.createClass({
-	getInitialState: function() {
-		return UserStore.getState();
-	},
-	componentDidMount: function() {
-		UserStore.listen(this.onChange);
-    	UserActions.getUser();
-	},
-	componentWillUnmount: function() {
-		UserStore.unlisten(this.onChange);
-	},
-	onChange:function(state){
-		this.setState(state);
-	},
-	render: function() {
-		return (
-			<nav className="navbar navbar-default" role="navigation">
-				<div className="navbar-header">
-					<a className="navbar-brand" href="#">这里是一个LOGO</a>
-				</div>
+function mapStateToProps(state) {
+  	return {
+    	username: state.session.username
+  	};
+}
+
+function mapDispatchToProps(dispatch) {
+  	return bindActionCreators(sessionAction, dispatch)
+}
+
+class menu extends React.Component {
+	constructor(props) {
+	    super(props);
+  	}
+  	componentDidMount() {
+  		this.props.getUserSync();
+  	}
+  	componentWillUnmount() {
+  		
+  	}
+  	render(){
+  		var username = this.props.username;
+
+  		var name = (function(){
+  			return (
+  				<div style ={{ display:"inline"}} >
+					<Glyphicon glyph="user" className="item-logo" style={{marginRight:"3px"}}/>
+	  				{username}
+  				</div>
+  			)
+  		})()
+  		return (
+  			<nav className="navbar navbar-default" role="navigation">
 				<div className="collapse navbar-collapse navbar-ex1-collapse">
 					<ul className="nav navbar-nav navbar-right">
 						<li>
-							<DropdownButton bsStyle='link' title={this.state.username} className="user-info">
-						      	<MenuItem eventKey="1"><a href="/logout">退出</a></MenuItem>
-						      	<MenuItem eventKey="2">关于</MenuItem>
+							<DropdownButton 
+								onSelect={this.select} 
+								id="userinfo" 
+								bsStyle='link' 
+								title={name} 
+								className="user-info">
+							      	<MenuItem eventKey="1">退出</MenuItem>
+							      	<MenuItem eventKey="2">关于</MenuItem>
 						    </DropdownButton>
 						</li>
 						
 					</ul>					
 				</div>
 			</nav>
-		);
-	}
-});
+  		)
+  	}
+  	select(e,key){
+  		if(key == 1){
+			window.location.replace("/logout");
+		}
+  	}
+}
 
-module.exports = menu;
+export default connect(mapStateToProps, mapDispatchToProps)(menu);

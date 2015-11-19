@@ -21,7 +21,7 @@ var charts = React.createClass({
 		};
 	},
 	componentDidMount: function() {
-		var dom = this.refs.chart.getDOMNode();
+		var dom = this.refs.chart;
 		var type = this.props.bsType;
 		var clickHandle = this.props.onClick;
 		var data = this.props.data;

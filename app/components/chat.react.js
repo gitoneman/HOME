@@ -1,62 +1,67 @@
-var React = require('react');
-var ChatStore = require('../stores/ChatStore');
-var ChatActions = require('../actions/ChatActions');
-var UserStore = require('../stores/UserStore');
-var Button = require('react-bootstrap').Button;
-var Glyphicon = require('react-bootstrap').Glyphicon;
+import React from "react";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as chatAction from '../actions/chatAction';
+import {Button,Glyphicon} from "react-bootstrap";
 
-// var socket = io.connect();
+function mapStateToProps(state) {
+  	return {
+    	chat: state.chat,
+    	session: state.session
+  	};
+}
+
+function mapDispatchToProps(dispatch) {
+  	return bindActionCreators(chatAction, dispatch)
+}
+
 var socket;
-var chat = React.createClass({
-	getInitialState: function() {
-		return ChatStore.getState();
-	},
-	componentDidMount: function() {
-		ChatStore.listen(this.onChange);
-		//初始化action
-    	//ChatActions.getTwoCharacters();
+class chat extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.send = this.send.bind(this);
+	    this.press = this.press.bind(this);
+  	}
+  	componentDidMount() {
+  		var props = this.props;
 
-    	setTimeout(function(){
+	    setTimeout(function(){
     		if(!socket){
 	    		socket = io.connect();
 
-	    		socket.emit('login',UserStore.getState().username)
+	    		socket.emit('login',props.session.username)
 		    	socket.on('users',function(data){
-					ChatActions.getUsers(data.users);
+					props.getUser(data);
 		    	})
 		    	socket.on('message',function(data){
-					ChatActions.getMsg(data);
+					props.getMsg(data);
 		    	})
 	    	}else{
 	    		socket.connect();
-	    		socket.emit('login',UserStore.getState().username)
+	    		socket.emit('login',props.session.username)
 	    	}
     	},300);
-    	
-	},
-	componentWillUnmount: function() {
-		ChatStore.unlisten(this.onChange);
-		socket.disconnect();
-	},
-	onChange:function(state){
-		this.setState(state);
-	},
-	componentDidUpdate:function(){
-		var d = this.refs.room.getDOMNode();
+  	}
+  	componentWillUnmount() {
+	    socket.disconnect();
+  	}
+  	componentDidUpdate() {
+  		var d = this.refs.room;
 		d.scrollTop = d.scrollHeight;
-		// $(this.refs.text.getDOMNode()).empty();
-		$(this.refs.text.getDOMNode()).val("");
-	},
-	render: function() {
-		var users = this.state.users.map(function(item){
+		$(this.refs.text).val("");
+  	}
+  	render(){
+  		var props = this.props;
+
+  		var users = this.props.chat.users.map(function(item,i){
 			return (
-				<li>{ item }</li>
+				<li key={i}>{ item }</li>
 			)
 		});
-		var messages = this.state.message.map(function(item){
+		var messages = this.props.chat.message.map(function(item,i){
 			return (
-				<div className="chat-room-item">
-					<span className={ UserStore.getState().username == item.name ? "pull-right" : "pull-left"}>
+				<div className="chat-room-item" key={i}>
+					<span className={ props.session.username == item.name ? "pull-right" : "pull-left"}>
 						<span className="msg">{item.msg}</span>
 						<Glyphicon glyph="user" className="logo"/>
 					</span>
@@ -68,7 +73,7 @@ var chat = React.createClass({
 				<div className="chat">
 					<div className="chat-list">
 						<div className="chart-list-title">
-							在线用户列表({this.state.users.length})
+							在线用户列表({this.props.chat.users.length})
 						</div>
 						<ul>
 							{users}
@@ -89,17 +94,17 @@ var chat = React.createClass({
 				</div>
 			</div>
 		);
-	},
-	send:function(){
-		var value = $(this.refs.text.getDOMNode()).val();
+  	}
+  	send(){
+		var value = $(this.refs.text).val();
 		socket.emit("message",value);
-	},
-	press:function(e){
+	}
+	press(e){
 		if(e.keyCode == 13){
 			this.send();
 			return false;
 		}
 	}
-});
+}
 
-module.exports = chat;	
+export default connect(mapStateToProps, mapDispatchToProps)(chat);

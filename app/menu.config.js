@@ -7,6 +7,10 @@ var menu = {
 		{
 			name: "天气",
 			href: "weather"
+		},
+		{
+			name: "日常开支",
+			href: "account"
 		}
 	],
 	"项目学习":[

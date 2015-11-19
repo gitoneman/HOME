@@ -5,22 +5,26 @@ var crypto = require('crypto');
 
 module.exports = {
 	login:function(req,res){
-		fs.readFile("views/login.html","utf-8",function(err,data){
+		fs.readFile("public/www/login.html","utf-8",function(err,data){
 			res.send(data);
 	  	})	
 	},
 	register:function(req,res){		
-		fs.readFile("views/register.html","utf-8",function(err,data){
+		fs.readFile("public/www/register.html","utf-8",function(err,data){
 			res.send(data);
 	  	})
 	},
 	logout:function(req,res){
 		req.logout();
-  		res.redirect('/');
+  		res.redirect('/login');
 	},
 	signup:function(req,res){
 		var username = req.body.username;
 		var password = req.body.password;
+
+		if(username == "" || password == ""){
+			return res.send({ code:-1,message:"用户名或者密码为空"})
+		}
 
 		User.findOne({username:username},function(err,doc){
 			if(err) return next(err);
@@ -39,14 +43,19 @@ module.exports = {
 		          	if (err) return next(err);
 		          	res.send({ code:0,message: '注册成功' });
 		        });
-				
 			}
 		})
 	},
 	signin:function(req,res,next){
 		passport.authenticate('local', function(err, user, info) {
 		    if (err) { return next(err); }
-		    if (!user) { return res.send({code:-1,message:info.message}); }
+		    if (!user) {
+		    	if(info.message == "Missing credentials"){
+		    		return res.send({code:-1,message:"用户名或者密码为空"});
+		    	}else{
+		    		return res.send({code:-1,message:info.message}); 
+		    	}
+		    }
 		    req.logIn(user, function(err) {
 		      	if (err) { return next(err); }
 		      	return res.send({code:0,message:"认证成功"});

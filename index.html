@@ -1,17 +1,25 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>HOME SYSTEM</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
-  </head>
-  <body>
-    <script src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/toastr.min.js"></script>
-    <script type="text/javascript" src="js/socket.io-1.3.7.js"></script>
-  	<script src="/js/echarts-all.js"></script>
-    <script src="/js/bundle.js"></script>
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <title>HOME SYSTEM</title>
+        <link rel="stylesheet" type="text/css" href="dist/index.css">
+        <!-- build:css -->
+        <link rel="stylesheet" type="text/css" href="dist/ant.css">
+        <!-- endbuild -->
+        
+    </head>
+    <body>
+    <div id="app"></div>
+        <script src="dist/vendor.js"></script>
+       
+        <!-- build:js -->
+        <script src="dist/bundle.js"></script>
+        <!-- endbuild -->
+        <script>
+            toastr.options = {
+                "timeOut": "1500"
+            }  
+        </script>
+    </body>
 </html>

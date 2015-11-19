@@ -1,34 +1,44 @@
-var React = require('react');
-var WeatherStore = require('../stores/WeatherStore');
-var WeatherActions = require('../actions/WeatherActions');
-var Chart = require('../common/charts/charts.react');
-var _ = require('underscore');
+import React from "react";
+import Chart from "../common/charts/charts.react";
+import _ from "underscore";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as weatherAction from '../actions/weatherAction';
+
 var wm = {
 	"晴" : "sunny",
 	"多云" : "duoyun",
-	"阴" : "yin"
+	"阴" : "yin",
+	"阵雨": "zheyu",
+	"小雨": "xiaoyu"
+};
+
+function mapStateToProps(state) {
+  	return {
+    	weather: state.weather
+  	};
 }
 
-var weather = React.createClass({
-	getInitialState: function() {
-		return WeatherStore.getState();
-	},
-	componentDidMount: function() {
-		WeatherStore.listen(this.onChange);
-		//初始化action
-    	WeatherActions.getWeather();
-	},
-	componentWillUnmount: function() {
-		WeatherStore.unlisten(this.onChange);
-	},
-	onChange:function(state){
-		this.setState(state);
-	},
-	render: function() {
-		var weather = this.state.weather;
+function mapDispatchToProps(dispatch) {
+  	return bindActionCreators(weatherAction, dispatch)
+}
+
+
+class weather extends React.Component {
+	constructor(props) {
+	    super(props);
+  	}
+  	componentDidMount() {
+	  	this.props.getWeatherSync()
+  	}
+  	componentWillUnmount() {
+
+  	}
+  	render(){
+  		var weather = this.props.weather;
 		var days = weather.daily_forecast.map(function(item,i){
 			return (
-				<div className={ i == 0 ? "weather-days-item weather-days-enable" : "weather-days-item"}>
+				<div key={i} className={ i == 0 ? "weather-days-item weather-days-enable" : "weather-days-item"}>
 					<div className="weather-days-head">
 						{item.date}
 					</div>
@@ -91,7 +101,7 @@ var weather = React.createClass({
 				</div>
 			</div>
 		);
-	}
-});
+  	}
+}
 
-module.exports = weather;
+export default connect(mapStateToProps, mapDispatchToProps)(weather);

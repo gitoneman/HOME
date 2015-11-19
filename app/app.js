@@ -1,62 +1,40 @@
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+import React, {Component}    from "react";
+import ReactDOM              from "react-dom";
+import {Router, Route, Link} from "react-router";
+// import createBrowserHistory from 'history/lib/createBrowserHistory';
+import createHashHistory     from "history/lib/createHashHistory";
+import {Provider}            from "react-redux";
+import renderRoutes          from "./routes";
+import configureStore        from "./store";
 
-var React = require('react');
+var initialState = window.__INITIAL_STATE__;
+const store = configureStore(initialState); //创建Redux Store实例
 
-var Menu = require('./components/menu.react');
-var SideMenu = require('./components/sideMenu');
-var Movies = require('./components/movies.react');
-var Stocks = require('./components/stocks.react');
-var Weather = require('./components/weather.react');
-var Chat = require('./components/chat.react');
-var Mail = require('./components/mail.react');
-var Router = require('react-router'); 
+//定义一个根组件
+class Root extends Component {
 
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
-var Redirect = Router.Redirect;
+  	constructor(props) {
+    	super(props);
+    	// this.history = createBrowserHistory(); 
+    	this.history = createHashHistory({
+		  	queryKey: false
+		});
+ 	}
 
-var menu = require('./menu.config');
-  
+  	render () {
+	    return (
+	      	<Provider store={store}>
+	      	 	<Router history={this.history}>
+	        		{renderRoutes}
+        		</Router>
+	      	</Provider>
+	    )
+  	}
+}
 
-var App = React.createClass({
-  render: function () {
-    return (
-      <div className="g-doc">
-       	<Menu />
-        <div className="g-sd">
-            <SideMenu data={menu}/>
-        </div>
-        <div className="g-mn">
-            <RouteHandler {...this.props}/>
-        </div>
-      </div>
-    );
-  }
-});
-
-var routes = (
-  <Route name="app" path="/" handler={App}>
-    <Route name="movies" handler={Movies}/>
-    <Route name="stocks" handler={Stocks}/>
-    <Route name="weather" handler={Weather}/>
-    <Route name="chat" handler={Chat}/>
-    <Route name="mail" handler={Mail}/>
-    <Redirect to="movies"/>
-  </Route>
-);
-
-Router.run(routes, function (Handler,state) {
-	var params = state.params;
-  	React.render(<Handler params={params} />, document.body);
-});
+//todo 注意这里使用的是ReactDOM？ 将应用组件注入到指定dom中
+ReactDOM.render(<Root/>, document.getElementById("app"));
+        
+     
 
 

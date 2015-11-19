@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var db = require("../database").db;
 
 var Schema = mongoose.Schema;
 
@@ -8,4 +9,4 @@ var Vqq = new Schema({
 	img: String
 });
 
-module.exports = mongoose.model("vqq",Vqq);
+module.exports = db.model("vqq",Vqq);

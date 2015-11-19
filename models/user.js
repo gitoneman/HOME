@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var db = require("../database").db;
 
 var Schema = mongoose.Schema;
 
@@ -7,4 +8,4 @@ var _User = new Schema({
 	password:String
 });
 
-module.exports = mongoose.model("user",_User);
+module.exports = db.model("user",_User);
